@@ -31,4 +31,4 @@ async def get_students(db: AsyncSession = Depends(init.get_db)):
 @router.delete("/{student_id}", status_code=204)
 async def delete_student(student_id: int, db: AsyncSession = Depends(init.get_db)):
     if not await crud.delete_student(db, student_id):
-        raise HTTPException(404)
+        raise HTTPException(404, "Студент не найден")

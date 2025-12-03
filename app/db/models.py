@@ -5,12 +5,11 @@ from sqlalchemy.orm import DeclarativeBase
 class Base(DeclarativeBase):
     pass
 
-# Связующая таблица
 student_group = Table(
     "student_group",
     Base.metadata,
-    Column("student_id", Integer, ForeignKey("students.id"), primary_key=True),
-    Column("group_id", Integer, ForeignKey("groups.id"), primary_key=True)
+    Column("student_id", Integer, ForeignKey("students.id", ondelete="CASCADE"), primary_key=True),
+    Column("group_id", Integer, ForeignKey("groups.id", ondelete="CASCADE"), primary_key=True)
 )
 
 class Student(Base):
