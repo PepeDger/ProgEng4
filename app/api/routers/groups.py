@@ -62,7 +62,8 @@ async def get_students_in_group(group_id: int, db: AsyncSession = Depends(init.g
 
 
 @router.post("/add-to-group")
-async def add_to_group(data: schemas.StudentGroupOperation, db: AsyncSession = Depends(init.get_db)):
+async def add_to_group(data: schemas.StudentGroupOperation,
+                       db: AsyncSession = Depends(init.get_db)):
     # Проверяем существование
     await _get_student_or_404(data.student_id, db)
     await _get_group_or_404(data.group_id, db)
@@ -78,7 +79,8 @@ async def add_to_group(data: schemas.StudentGroupOperation, db: AsyncSession = D
 
 
 @router.post("/remove-from-group")
-async def remove_from_group(data: schemas.StudentGroupOperation, db: AsyncSession = Depends(init.get_db)):
+async def remove_from_group(data: schemas.StudentGroupOperation,
+                            db: AsyncSession = Depends(init.get_db)):
     await _get_student_or_404(data.student_id, db)
     await _get_group_or_404(data.group_id, db)
 
@@ -107,4 +109,5 @@ async def move_student(data: schemas.StudentMove, db: AsyncSession = Depends(ini
         raise HTTPException(status_code=400, detail="Студент не состоит в исходной группе")
 
     await crud.move_student(db, data.student_id, data.from_group_id, data.to_group_id)
-    return {"detail": f"Студент переведён из группы {data.from_group_id} в группу {data.to_group_id}"}
+    return {"detail": f"Студент переведён из группы "
+                      f"{data.from_group_id} в группу {data.to_group_id}"}

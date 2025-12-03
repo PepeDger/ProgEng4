@@ -7,7 +7,8 @@ from typing import List
 router = APIRouter(prefix="/students", tags=["students"])
 
 @router.post("/", response_model=schemas.StudentRead, status_code=201)
-async def create_student(student: schemas.StudentCreate, db: AsyncSession = Depends(init.get_db)):
+async def create_student(student: schemas.StudentCreate,
+                         db: AsyncSession = Depends(init.get_db)):
     db_student = await crud.create_student(db, student)
     return {
         "id": db_student.id,
